@@ -1,0 +1,133 @@
+
+bubblesort.o:     file format elf32-littleriscv
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001a0  00000000  00000000  00000034  2**2
+                  CONTENTS, ALLOC, LOAD, RELOC, READONLY, CODE
+  1 .data         00000000  00000000  00000000  000001d4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000000  00000000  00000000  000001d4  2**0
+                  ALLOC
+  3 .rodata       00000426  00000000  00000000  000001d4  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  4 .comment      00000012  00000000  00000000  000005fa  2**0
+                  CONTENTS, READONLY
+
+Disassembly of section .text:
+
+00000000 <main>:
+   0:	bb010113          	addi	sp,sp,-1104
+   4:	44112623          	sw	ra,1100(sp)
+   8:	44812423          	sw	s0,1096(sp)
+   c:	45010413          	addi	s0,sp,1104
+  10:	000007b7          	lui	a5,0x0
+  14:	bb840713          	addi	a4,s0,-1096
+  18:	00078793          	mv	a5,a5
+  1c:	42600693          	li	a3,1062
+  20:	00068613          	mv	a2,a3
+  24:	00078593          	mv	a1,a5
+  28:	00070513          	mv	a0,a4
+  2c:	00000097          	auipc	ra,0x0
+  30:	000080e7          	jalr	ra
+  34:	42600793          	li	a5,1062
+  38:	fef42223          	sw	a5,-28(s0)
+  3c:	000027b7          	lui	a5,0x2
+  40:	fef42023          	sw	a5,-32(s0)
+  44:	fe442783          	lw	a5,-28(s0)
+  48:	fff78793          	addi	a5,a5,-1 # 1fff <.L2+0x1e7f>
+  4c:	fef42423          	sw	a5,-24(s0)
+  50:	fe042783          	lw	a5,-32(s0)
+  54:	0ff00713          	li	a4,255
+  58:	00e7a023          	sw	a4,0(a5)
+  5c:	1240006f          	j	180 <.L2>
+
+00000060 <.L6>:
+  60:	fe042783          	lw	a5,-32(s0)
+  64:	0007a783          	lw	a5,0(a5)
+  68:	fff7c713          	not	a4,a5
+  6c:	fe042783          	lw	a5,-32(s0)
+  70:	00e7a023          	sw	a4,0(a5)
+  74:	fe042623          	sw	zero,-20(s0)
+  78:	0f00006f          	j	168 <.L3>
+
+0000007c <.L5>:
+  7c:	fec42783          	lw	a5,-20(s0)
+  80:	ff040713          	addi	a4,s0,-16
+  84:	00f707b3          	add	a5,a4,a5
+  88:	bc87c703          	lbu	a4,-1080(a5)
+  8c:	fec42783          	lw	a5,-20(s0)
+  90:	00178793          	addi	a5,a5,1
+  94:	ff040693          	addi	a3,s0,-16
+  98:	00f687b3          	add	a5,a3,a5
+  9c:	bc87c783          	lbu	a5,-1080(a5)
+  a0:	0ae7fe63          	bleu	a4,a5,15c <.L4>
+  a4:	fec42783          	lw	a5,-20(s0)
+  a8:	ff040713          	addi	a4,s0,-16
+  ac:	00f707b3          	add	a5,a4,a5
+  b0:	bc87c703          	lbu	a4,-1080(a5)
+  b4:	fec42783          	lw	a5,-20(s0)
+  b8:	00178793          	addi	a5,a5,1
+  bc:	ff040693          	addi	a3,s0,-16
+  c0:	00f687b3          	add	a5,a3,a5
+  c4:	bc87c783          	lbu	a5,-1080(a5)
+  c8:	00f747b3          	xor	a5,a4,a5
+  cc:	0ff7f713          	andi	a4,a5,255
+  d0:	fec42783          	lw	a5,-20(s0)
+  d4:	ff040693          	addi	a3,s0,-16
+  d8:	00f687b3          	add	a5,a3,a5
+  dc:	bce78423          	sb	a4,-1080(a5)
+  e0:	fec42783          	lw	a5,-20(s0)
+  e4:	00178793          	addi	a5,a5,1
+  e8:	ff040713          	addi	a4,s0,-16
+  ec:	00f707b3          	add	a5,a4,a5
+  f0:	bc87c683          	lbu	a3,-1080(a5)
+  f4:	fec42783          	lw	a5,-20(s0)
+  f8:	ff040713          	addi	a4,s0,-16
+  fc:	00f707b3          	add	a5,a4,a5
+ 100:	bc87c703          	lbu	a4,-1080(a5)
+ 104:	fec42783          	lw	a5,-20(s0)
+ 108:	00178793          	addi	a5,a5,1
+ 10c:	00e6c733          	xor	a4,a3,a4
+ 110:	0ff77713          	andi	a4,a4,255
+ 114:	ff040693          	addi	a3,s0,-16
+ 118:	00f687b3          	add	a5,a3,a5
+ 11c:	bce78423          	sb	a4,-1080(a5)
+ 120:	fec42783          	lw	a5,-20(s0)
+ 124:	ff040713          	addi	a4,s0,-16
+ 128:	00f707b3          	add	a5,a4,a5
+ 12c:	bc87c703          	lbu	a4,-1080(a5)
+ 130:	fec42783          	lw	a5,-20(s0)
+ 134:	00178793          	addi	a5,a5,1
+ 138:	ff040693          	addi	a3,s0,-16
+ 13c:	00f687b3          	add	a5,a3,a5
+ 140:	bc87c783          	lbu	a5,-1080(a5)
+ 144:	00f747b3          	xor	a5,a4,a5
+ 148:	0ff7f713          	andi	a4,a5,255
+ 14c:	fec42783          	lw	a5,-20(s0)
+ 150:	ff040693          	addi	a3,s0,-16
+ 154:	00f687b3          	add	a5,a3,a5
+ 158:	bce78423          	sb	a4,-1080(a5)
+
+0000015c <.L4>:
+ 15c:	fec42783          	lw	a5,-20(s0)
+ 160:	00178793          	addi	a5,a5,1
+ 164:	fef42623          	sw	a5,-20(s0)
+
+00000168 <.L3>:
+ 168:	fec42703          	lw	a4,-20(s0)
+ 16c:	fe842783          	lw	a5,-24(s0)
+ 170:	f0f746e3          	blt	a4,a5,7c <.L5>
+ 174:	fe842783          	lw	a5,-24(s0)
+ 178:	fff78793          	addi	a5,a5,-1
+ 17c:	fef42423          	sw	a5,-24(s0)
+
+00000180 <.L2>:
+ 180:	fe842783          	lw	a5,-24(s0)
+ 184:	ecf04ee3          	bgtz	a5,60 <.L6>
+ 188:	00000793          	li	a5,0
+ 18c:	00078513          	mv	a0,a5
+ 190:	44c12083          	lw	ra,1100(sp)
+ 194:	44812403          	lw	s0,1096(sp)
+ 198:	45010113          	addi	sp,sp,1104
+ 19c:	00008067          	ret

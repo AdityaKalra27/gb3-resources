@@ -30,7 +30,7 @@ OBJS-SF		=\
 		$(INIT-SF).o\
 		$(PROGRAM).o\
 
-all:	$(PROGRAM) $(PROGRAM).sr $(PROGRAM-SF) $(PROGRAM-SF).sr Makefile
+all:	$(PROGRAM) $(PROGRAM).sr $(PROGRAM-SF) $(PROGRAM-SF).sr $(PROGRAM).lss Makefile
 
 $(INIT).o: $(INIT).S
 	$(AS) $(ASFLAGS) $(INIT).S -o $(INIT).o
@@ -53,6 +53,9 @@ $(PROGRAM-SF): $(OBJS-SF)
 
 $(PROGRAM-SF).sr:$(PROGRAM-SF)
 	$(OBJCOPY) -O srec $(PROGRAM-SF) $@
+
+$(PROGRAM).lss: $(PROGRAM).o
+	$(OBJDUMP) -h -S $(PROGRAM).o > $(PROGRAM).lss
 
 install: all
 	mkdir -p $(GB3_ROOT)/processor/programs/
