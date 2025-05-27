@@ -43,7 +43,7 @@ Info: 	      ICESTORM_SPRAM:     0/    4     0%
 Info: Placed 3 cells based on constraints.
 Info: Creating initial placement for remaining 104 cells.
 Info:   initial placement placed 104/104 cells
-Info: Initial placement time 0.05s
+Info: Initial placement time 0.02s
 Info: Running simulated annealing placer.
 Info:   at iteration #1: temp = 1.000000, timing cost = 87, wirelen = 2649
 Info:   at iteration #5: temp = 0.500000, timing cost = 78, wirelen = 2383
@@ -108,7 +108,7 @@ Info:   at iteration #260: temp = 0.000001, timing cost = 46, wirelen = 127
 Info:   at iteration #265: temp = 0.000000, timing cost = 46, wirelen = 127
 Info:   at iteration #270: temp = 0.000000, timing cost = 46, wirelen = 127
 Info:   at iteration #272: temp = 0.000000, timing cost = 46, wirelen = 127 
-Info: SA placement time 0.78s
+Info: SA placement time 0.29s
 
 Info: Max frequency for clock 'clk': 35.08 MHz (PASS at 24.00 MHz)
 
@@ -144,9 +144,9 @@ Info: Setting up routing queue.
 Info: Routing 221 arcs.
 Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
 Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
-Info:        221 |        0        221 |    0   221 |         0|       0.24       0.24|
+Info:        221 |        0        221 |    0   221 |         0|       0.02       0.02|
 Info: Routing complete.
-Info: Router1 time 0.24s
+Info: Router1 time 0.02s
 Info: Checksum: 0x26766ff8
 
 Info: Critical path report for clock 'clk' (posedge -> posedge):
