@@ -3,6 +3,12 @@
 !*.*
 !*/
 
+# Ignore all log files
+.log
+
+# Ignore weird files I don't konw about
+.node0
+
 # allow Makefiles
 !**Makefile**
 !processor/verilog
@@ -23,3 +29,6 @@
 **/*.i
 **/*.sr
 **/*.map
+
+# ignore patched sunflower binary
+sf_gb3

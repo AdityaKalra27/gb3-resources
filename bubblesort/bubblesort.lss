@@ -35,7 +35,7 @@ Disassembly of section .text:
   3c:	000027b7          	lui	a5,0x2
   40:	fef42023          	sw	a5,-32(s0)
   44:	fe442783          	lw	a5,-28(s0)
-  48:	fff78793          	addi	a5,a5,-1 # 1fff <.L2+0x1e7f>
+  48:	fff78793          	addi	a5,a5,-1 # 1fff <.L7+0x1e63>
   4c:	fef42423          	sw	a5,-24(s0)
   50:	fe042783          	lw	a5,-32(s0)
   54:	0ff00713          	li	a4,255
@@ -125,9 +125,11 @@ Disassembly of section .text:
 00000180 <.L2>:
  180:	fe842783          	lw	a5,-24(s0)
  184:	ecf04ee3          	bgtz	a5,60 <.L6>
- 188:	00000793          	li	a5,0
- 18c:	00078513          	mv	a0,a5
- 190:	44c12083          	lw	ra,1100(sp)
- 194:	44812403          	lw	s0,1096(sp)
- 198:	45010113          	addi	sp,sp,1104
- 19c:	00008067          	ret
+ 188:	fe042783          	lw	a5,-32(s0)
+ 18c:	0ff00713          	li	a4,255
+ 190:	00e7a023          	sw	a4,0(a5)
+ 194:	fe042783          	lw	a5,-32(s0)
+ 198:	0007a023          	sw	zero,0(a5)
+
+0000019c <.L7>:
+ 19c:	0000006f          	j	19c <.L7>
