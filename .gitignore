@@ -4,10 +4,15 @@
 !*/
 
 # Ignore all log files
-.log
+*.log
+*.swp
 
 # Ignore weird files I don't konw about
-.node0
+*.node0
+*.node1
+
+# Ignore jar files (used to clean repo)
+*.jar
 
 # allow Makefiles
 !**Makefile**
