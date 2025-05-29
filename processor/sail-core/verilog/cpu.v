@@ -182,11 +182,17 @@ module cpu(
 			.out(pc_in)
 		);
 
-	adder pc_adder(
+	DSPAdd pc_adder(
+		.input1(32'b100),
+		.input2(pc_out),
+		.out(pc_adder_out)
+	);
+
+	/*adder pc_adder(
 			.input1(32'b100),
 			.input2(pc_out),
 			.out(pc_adder_out)
-		);
+		);*/
 
 	program_counter PC(
 			.inAddr(pc_in),
@@ -331,11 +337,17 @@ module cpu(
 			.out(addr_adder_mux_out)
 		);
 
-	adder addr_adder(
+	DSPAdd addr_adder(
+		.input1(addr_adder_mux_out),
+		.input2(id_ex_out[139:108]),
+		.out(addr_adder_sum)
+	);
+
+	/*adder addr_adder(
 			.input1(addr_adder_mux_out),
 			.input2(id_ex_out[139:108]),
 			.out(addr_adder_sum)
-		);
+		);*/
 
 	mux2to1 alu_mux(
 			.input0(wb_fwd2_mux_out),
