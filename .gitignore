@@ -4,7 +4,7 @@
 !*/
 
 # Ignore all log files
-.log
+**/*.log
 
 # Ignore weird files I don't konw about
 .node0
