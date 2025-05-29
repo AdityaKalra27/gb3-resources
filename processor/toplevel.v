@@ -41,9 +41,9 @@
  *	Top level entity, linking cpu with data and instruction memory.
  */
 
-module top (led);
+module top (led, clk_output);
 	output [7:0]	led;
-	// output clk_output;
+	output clk_output;
 
 	wire		clk_proc;
 	wire		data_clk_stall;
@@ -72,10 +72,10 @@ module top (led);
 		.PLLOUT_SELECT("GENCLK"),
 		.FEEDBACK_PATH("SIMPLE"),
 		.FEEDBACK_PATH("SIMPLE"),
-		.DIVR(4'b0010),		// DIVR =  2
-		.DIVF(7'b0110110),	// DIVF = 54
-		.DIVQ(3'b101),		// DIVQ =  5
-		.FILTER_RANGE(3'b001)	// FILTER_RANGE = 1
+		.DIVR(4'b0000),		// DIVR =  0
+		.DIVF(7'b0001011),	// DIVF = 11
+		.DIVQ(3'b100),		// DIVQ =  4
+		.FILTER_RANGE(3'b100)	// FILTER_RANGE = 4
 	) PLL_instance (
 		.RESETB(1'b1),
 		.BYPASS(1'b0),
@@ -133,4 +133,10 @@ module top (led);
 
 	assign clk_proc = (data_clk_stall) ? 1'b1 : clk;
 	// assign clk_output = clk;
+	// assign clk_output = clk;
+
+	clock_divider_2N #(.N(10)) clk_output_div (
+		.clk_in(clk),
+		.clk_out(clk_output)
+	);
 endmodule

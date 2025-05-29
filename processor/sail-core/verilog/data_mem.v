@@ -230,7 +230,8 @@ module data_mem (clk, addr, write_data, memwrite, memread, sign_mask, read_data,
 	 */
 	always @(posedge clk) begin
 		if(memwrite == 1'b1 && addr == 32'h2000) begin
-			led_reg <= write_data;
+			// led_reg <= write_data;
+			led <= write_data[7:0];
 		end
 	end
 
@@ -290,5 +291,5 @@ module data_mem (clk, addr, write_data, memwrite, memread, sign_mask, read_data,
 	/*
 	 *	Test led
 	 */
-	assign led = led_reg[7:0];
+	// assign led = led_reg[7:0];
 endmodule

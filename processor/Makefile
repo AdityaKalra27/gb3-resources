@@ -6,7 +6,7 @@ sail-nextpnr:
 	cp programs/data.hex verilog/
 	cp programs/program.hex verilog/
 	yosys $(GB3_ROOT)/processor/yscripts/$(DESIGN).ys > yosys.log
-	nextpnr-ice40 --up5k --package uwg30 --json $(DESIGN).json --pcf pcf/$(DESIGN).pcf --asc $(DESIGN).asc --log device_util.log
+	nextpnr-ice40 --up5k --package uwg30 --json $(DESIGN).json --pcf pcf/$(DESIGN).pcf --asc $(DESIGN).asc --log device_util.log --pcf-allow-unconstrained
 	icetime -p pcf/sail.pcf -P uwg30 -d up5k -t sail.asc
 	icepack $(DESIGN).asc design.bin
 	cp design.bin $(GB3_ROOT)/build/
