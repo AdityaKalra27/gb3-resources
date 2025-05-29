@@ -4,12 +4,12 @@
 !*/
 
 # Ignore all log files
-*.log
-*.swp
+**/*.log
+**/*.swp
 
 # Ignore weird files I don't konw about
-*.node0
-*.node1
+**/*.node0
+**/*.node1
 
 # Ignore jar files (used to clean repo)
 *.jar
