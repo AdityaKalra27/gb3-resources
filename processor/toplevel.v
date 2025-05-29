@@ -43,10 +43,14 @@
 
 module top (led);
 	output [7:0]	led;
+	// output clk_output;
 
 	wire		clk_proc;
 	wire		data_clk_stall;
 	
+	// HFOSC output clock
+	wire hfosc_clk;
+	// system clock
 	wire		clk;
 	reg		ENCLKHF		= 1'b1;	// Plock enable
 	reg		CLKHF_POWERUP	= 1'b1;	// Power up the HFOSC circuit
@@ -55,10 +59,15 @@ module top (led);
 	/*
 	 *	Use the iCE40's hard primitive for the clock source.
 	 */
-	SB_HFOSC #(.CLKHF_DIV("0b10")) OSCInst0 (
+	SB_HFOSC #(.CLKHF_DIV("0b00")) OSCInst0 (
 		.CLKHFEN(ENCLKHF),
 		.CLKHFPU(CLKHF_POWERUP),
-		.CLKHF(clk)
+		.CLKHF(hfosc_clk)
+	);
+
+	clock_divider_2N #(.N(2)) clk_div (
+		.clk_in(hfosc_clk),
+		.clk_out(clk)
 	);
 
 	/*
@@ -104,4 +113,5 @@ module top (led);
 		);
 
 	assign clk_proc = (data_clk_stall) ? 1'b1 : clk;
+	// assign clk_output = clk;
 endmodule
