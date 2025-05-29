@@ -50,6 +50,8 @@ module top (led);
 	
 	// HFOSC output clock
 	wire hfosc_clk;
+	// PLL output clock
+	wire pllout_clk;
 	// system clock
 	wire		clk;
 	reg		ENCLKHF		= 1'b1;	// Plock enable
@@ -65,8 +67,24 @@ module top (led);
 		.CLKHF(hfosc_clk)
 	);
 
-	clock_divider_2N #(.N(2)) clk_div (
-		.clk_in(hfosc_clk),
+	// Use hard primitive for PLL
+	SB_PLL40_CORE #(
+		.PLLOUT_SELECT("GENCLK"),
+		.FEEDBACK_PATH("SIMPLE"),
+		.FEEDBACK_PATH("SIMPLE"),
+		.DIVR(4'b0010),		// DIVR =  2
+		.DIVF(7'b0110110),	// DIVF = 54
+		.DIVQ(3'b101),		// DIVQ =  5
+		.FILTER_RANGE(3'b001)	// FILTER_RANGE = 1
+	) PLL_instance (
+		.RESETB(1'b1),
+		.BYPASS(1'b0),
+		.REFERENCECLK(hfosc_clk),
+		.PLLOUTCORE(pllout_clk)
+	);
+
+	clock_divider_2N #(.N(1)) clk_div (
+		.clk_in(pllout_clk),
 		.clk_out(clk)
 	);
 
