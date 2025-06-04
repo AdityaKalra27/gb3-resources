@@ -2,6 +2,7 @@
 	softwareblink \
 	hardwareblink \
 	bubblesort \
+	stresstest \
 	clean
 
 softwareblink:
@@ -13,6 +14,10 @@ hardwareblink:
 
 bubblesort:
 	cd bubblesort; make clean; make; make install
+	cd processor; make
+
+stresstest:
+	cd stresstest; make clean; make; make install
 	cd processor; make
 
 clean:

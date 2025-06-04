@@ -24,9 +24,11 @@ module clock_divider_2N
     end
 
     always @ (posedge clk_in) begin
+        // count from 0 to N-1
         if (count == N - 1) count <= 0;
         else count <= count + 1;
 
+        // Toggle
         if (count == 0) clk_out <= ~clk_out;
     end
 endmodule
