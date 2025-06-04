@@ -27,32 +27,35 @@ void delay_u(int units) {
 	}
 }
 
-// void morse(const char* string) {
-// 	char* c = string;
-// 	while (*c != '\0') {
-// 		int delay = 0;
-// 		if (*c == '.') delay = 1;
-// 		else if (*c == '-') delay = 2;
-// 		LED_ON;
-// 		delay_u(delay);
-// 		LED_OFF;
-// 		delay_u(1);
-// 		++c;
-// 	}
-// }
+typedef enum {
+	M_Dot,
+	M_Dash,
+	M_End
+} Morse_Symbols;
 
-// void SOS() {
-// 	while(1) {
-// 		morse("...---...");
-// 		delay_u(6);
-// 	}
-// }
+void morse(const char* pattern) {
+	for (int i = 0; pattern[i] != M_End; ++i) {
+		if (pattern[i] == M_Dot) {
+			LED_ON;
+			delay_u(1);
+			LED_OFF;
+			delay_u(1);
+		}
+		else if (pattern[i] == M_Dash) {
+			LED_ON;
+			delay_u(2);
+			LED_OFF;
+			delay_u(2);
+		}
+	}
+}
 
 // Error
 // For some reason looped approach doesn't work, here's a hard coded approach
 void SOS() {
+	// const char
+
 	while(1) {
-		delay_u(1);
 		LED_ON;
 		delay_u(1);
 		LED_OFF;
@@ -63,6 +66,14 @@ void SOS() {
 		delay_u(1);
 		LED_ON;
 		delay_u(1);
+		LED_OFF;
+		delay_u(1);
+		LED_ON;
+		delay_u(2);
+		LED_OFF;
+		delay_u(2);
+		LED_ON;
+		delay_u(2);
 		LED_OFF;
 		delay_u(2);
 		LED_ON;
@@ -70,14 +81,6 @@ void SOS() {
 		LED_OFF;
 		delay_u(2);
 		LED_ON;
-		delay_u(2);
-		LED_OFF;
-		delay_u(2);
-		LED_ON;
-		delay_u(2);
-		LED_OFF;
-		delay_u(1);
-		LED_ON;
 		delay_u(1);
 		LED_OFF;
 		delay_u(1);
@@ -88,6 +91,9 @@ void SOS() {
 		LED_ON;
 		delay_u(1);
 		LED_OFF;
+		delay_u(1);
+
+		
 		delay_u(6);
 	}
 }
