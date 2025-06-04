@@ -52,7 +52,7 @@ void delay_u(int units) {
 
 // Error
 // For some reason looped approach doesn't work, here's a hard coded approach
-void SOS() {
+void SOS(int error_code) {
 	// const char SOS_pattern[] = {M_Dot, M_Dot, M_Dot, M_Dash, M_Dash, M_Dash, M_Dot, M_Dot, M_Dot, M_End};
 
 	while(1) {
@@ -97,6 +97,26 @@ void SOS() {
 
 		
 		delay_u(6);
+
+		LED_ON;
+		delay_u(1);
+		LED_OFF;
+		delay_u(1);
+
+		for (int i = 7; i >= 0; --i) {
+			if (error_code & 1 << i) {
+				LED_ON;
+			}
+			delay_u(3);
+			LED_OFF;
+			delay_u(1);
+		}
+
+		LED_ON;
+		delay_u(1);
+		LED_OFF;
+		
+		delay_u(10);
 	}
 }
 
@@ -133,9 +153,7 @@ int main(void) {
 	// testreg2 <= 15
 	__asm("sub %0, %1, %2": "=r" (testreg2): "r" (testreg1), "r" (testreg3));
 
-	if (testreg2 != 15) SOS();
-
-	goto end;
+	if (testreg2 != 15) SOS(1);
 
 	//----------BITWISE TESTS----------//
 
@@ -148,7 +166,7 @@ int main(void) {
 	// testreg3 <= 0xACACACAC
 	__asm("and %0, %1, %2": "=r" (testreg3): "r" (testreg1), "r" (testreg2));
 
-	if (testreg3 != 0xACACACAC) SOS();
+	if (testreg3 != 0xACACACAC) SOS(2);
 
 	// Test ANDI
 	// Ands testreg1 and 0xFE
@@ -156,37 +174,40 @@ int main(void) {
 	// testreg3 <= 0x000000AC
 	__asm("andi %0, %1, 0x0FE": "=r" (testreg3): "r" (testreg1));
 
-	if (testreg3 != 0x000000AC) SOS();
+	if (testreg3 != 0x000000AC) SOS(3);
 
 	// Test OR
 	// Ors testreg1 and testreg2 => testreg3
 	// testreg3 <= 0xBFBFBFBF
 	__asm("or %0, %1, %2": "=r" (testreg3): "r" (testreg1), "r" (testreg2));
 
-	if (testreg3 != 0xBFBFBFBF) SOS();
+	if (testreg3 != 0xBFBFBFBF) SOS(4);
 
 	// Test ORI
 	// Ors testreg1 and 0xFE
 	// Immediate value is 12 bit sign extended so
-	// testreg3 <= 0x000000BF
-	__asm("ori %0, %1, 0x0FE": "=r" (testreg3): "r" (testreg1));
+	// testreg3 <= 0x000000FE
+	__asm("ori %0, %1, 0x0FE": "=r" (testreg3): "r" (testreg2));
 
-	if (testreg3 != 0x000000BF) SOS();
+	if (testreg3 != 0xBEBEBEFE) SOS(5);
 
 	// Test XOR
 	// Xors testreg1 and testreg2 => testreg3
 	// testreg3 <= 0x13131313
 	__asm("xor %0, %1, %2": "=r" (testreg3): "r" (testreg1), "r" (testreg2));
 
-	if (testreg3 != 0x13131313) SOS();
+	if (testreg3 != 0x13131313) SOS(6);
 
 	// Test XORI
-	// Xors testreg1 and 0xFE
+	// Xors testreg1 and 0xBE
 	// Immediate value is 12 bit sign extended so
 	// testreg3 <= 0xADADAD13
-	__asm("xori %0, %1, 0x0FE": "=r" (testreg3): "r" (testreg1));
+	__asm("xori %0, %1, 0x0BE": "=r" (testreg3): "r" (testreg1));
 
-	if (testreg3 != 0xADADAD13) SOS();
+	if (testreg3 != 0xADADAD13) SOS(7);
+
+	
+	// goto end;
 
 	//----------SHIFT TESTS----------//
 
@@ -201,7 +222,7 @@ int main(void) {
 	"slli %0, %0, 9\n"
 	: "+r" (testreg3): "r" (testreg1), "r" (testreg2));
 
-	if (testreg3 != 0xADAD0000) SOS();
+	if (testreg3 != 0xADAD0000) SOS(8);
 
 	// Test SRL and SRLI
 	// Logically shifts right by 7 and 9 bits respectively
@@ -210,7 +231,7 @@ int main(void) {
 		"srli %0, %0, 9\n"
 		: "+r" (testreg3): "r" (testreg1), "r" (testreg2));
 
-	if (testreg3 != 0x0000ADAD) SOS();
+	if (testreg3 != 0x0000ADAD) SOS(9);
 
 	// Test SRA and SRAI
 	// Arithmetically shifts right by 7 and 9 bits respectively
@@ -219,7 +240,7 @@ int main(void) {
 	"srai %0, %0, 9\n"
 	: "+r" (testreg3): "r" (testreg1), "r" (testreg2));
 
-	if (testreg3 != 0xFFFFADAD) SOS();
+	if (testreg3 != 0xFFFFADAD) SOS(10);
 
 	//----------LOAD IMMEDIATE TESTS----------//
 	// Exclude AUIPC as it's basically a jump instruction
@@ -227,7 +248,7 @@ int main(void) {
 	// Test LUI
 	__asm("lui %0, 12345": "=r" (testreg3));
 
-	if (testreg3 != 50565120) SOS();
+	if (testreg3 != 50565120) SOS(11);
 
 	//----------LOAD AND STORE TESTS----------//
 
@@ -243,27 +264,29 @@ int main(void) {
 		"sw %0, 0(%2)"
 		: "=r" (testreg1): "r" (testreg2), "r" (testreg3));
 
-	if (testmem2 != 0x67676767) SOS();
+	if (testmem2 != 0x67676767) SOS(12);
+
+	testmem1 = 0x68686868;
 
 	// Test LH and SH
 	// Loads word located in testmem1 into testreg1
 	// Then stores into testmem2
 	__asm("lh %0, 0(%1)\n"
-		"sh %0, 0(%2)"
+		"sh %0, 2(%2)"
 		: "=r" (testreg1): "r" (testreg2), "r" (testreg3));
 
-	if (testmem2 != 0x00006767) SOS();
+	if (testmem2 != 0x68686767) SOS(13);
 
 	// Test LB and SB
 	// Loads word located in testmem1 into testreg1
 	// Then stores into testmem2
-	__asm("lh %0, 0(%1)\n"
-		"sh %0, 0(%2)"
+	__asm("lb %0, 0(%1)\n"
+		"sb %0, 1(%2)"
 		: "=r" (testreg1): "r" (testreg2), "r" (testreg3));
 
-	if (testmem2 != 0x00000067) SOS();
+	if (testmem2 != 0x68686867) SOS(14);
 
-end:
+// end:
 
 	Success();
 
