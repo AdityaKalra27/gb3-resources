@@ -86,22 +86,22 @@ module top (led, clk_output);
 		.PLLOUTCORE(pllout_clk)
 	);
 
-	// // Primary clock divider
-	// clock_divider_2N #(.N(2)) clk_div (
-	// 	.clk_in(pllout_clk),
-	// 	.clk_out(raw_clk)
-	// );
-
-	// init_delay init_delay_inst (
-	// 	.clk_in(raw_clk),
-	// 	.clk_out(clk)
-	// );
-
 	// Primary clock divider
 	clock_divider_2N #(.N(1)) clk_div (
 		.clk_in(pllout_clk),
+		.clk_out(raw_clk)
+	);
+
+	init_delay init_delay_inst (
+		.clk_in(raw_clk),
 		.clk_out(clk)
 	);
+
+	// // Primary clock divider
+	// clock_divider_2N #(.N(1)) clk_div (
+	// 	.clk_in(pllout_clk),
+	// 	.clk_out(clk)
+	// );
 
 	/*
 	 *	Memory interface
