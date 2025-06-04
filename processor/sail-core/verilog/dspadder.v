@@ -9,8 +9,8 @@ module DSPAdd(input1, input2, out);
 		.C(input2[31 : 16]),
 		.D(input2[15 : 0]),
 		.O(out),
-		.CLK(),
-		.CE(1'b0), // clock enabled input? What happens if we disable?
+		.CLK(1'b0),
+		.CE(1'b1), // clock enabled input? What happens if we disable?
 		.IRSTTOP(1'b0),
 		.IRSTBOT(1'b0),
 		.ORSTTOP(1'b0),
