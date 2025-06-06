@@ -53,7 +53,7 @@ module top (led, clk_output);
 	// PLL output clock
 	wire pllout_clk;
 	// Clock before startup delay
-	wire raw_clk;
+	// wire raw_clk;
 	// system clock
 	wire		clk;
 	reg		ENCLKHF		= 1'b1;	// Plock enable
@@ -71,14 +71,29 @@ module top (led, clk_output);
 
 	// Use hard primitive for PLL
 
-	// 24MHz output configuration
+	// // 24MHz output configuration
+	// SB_PLL40_CORE #(
+	// 	.PLLOUT_SELECT("GENCLK"),
+	// 	.FEEDBACK_PATH("SIMPLE"),
+	// 	.DIVR(4'b0000),		// DIVR =  0
+	// 	.DIVF(7'b0001111),	// DIVF = 15
+	// 	.DIVQ(3'b101),		// DIVQ =  5
+	// 	.FILTER_RANGE(3'b100)	// FILTER_RANGE = 4
+	// ) PLL_instance (
+	// 	.RESETB(1'b1),
+	// 	.BYPASS(1'b0),
+	// 	.REFERENCECLK(hfosc_clk),
+	// 	.PLLOUTCORE(pllout_clk)
+	// );
+
+		// 29MHz output configuration
 	SB_PLL40_CORE #(
 		.PLLOUT_SELECT("GENCLK"),
 		.FEEDBACK_PATH("SIMPLE"),
-		.DIVR(4'b0000),		// DIVR =  0
-		.DIVF(7'b0001111),	// DIVF = 15
-		.DIVQ(3'b101),		// DIVQ =  5
-		.FILTER_RANGE(3'b100)	// FILTER_RANGE = 4
+.DIVR(4'b0010),		// DIVR =  2
+.DIVF(7'b0111001),	// DIVF = 57
+.DIVQ(3'b101),		// DIVQ =  5
+.FILTER_RANGE(3'b001)	// FILTER_RANGE = 1
 	) PLL_instance (
 		.RESETB(1'b1),
 		.BYPASS(1'b0),
@@ -86,14 +101,14 @@ module top (led, clk_output);
 		.PLLOUTCORE(pllout_clk)
 	);
 
-	// Primary clock divider
-	clock_divider_2N #(.N(1)) clk_div (
-		.clk_in(pllout_clk),
-		.clk_out(raw_clk)
-	);
+	// // Primary clock divider
+	// clock_divider_2N #(.N(1)) clk_div (
+	// 	.clk_in(pllout_clk),
+	// 	.clk_out(raw_clk)
+	// );
 
 	init_delay init_delay_inst (
-		.clk_in(raw_clk),
+		.clk_in(pllout_clk),
 		.clk_out(clk)
 	);
 
