@@ -37,7 +37,7 @@ module DSPAdd(input1, input2, out);
     // bypass, take from adder/subtractor output directly, do not store in accumulator register
     defparam i_sbmac16.B_SIGNED = 1'b0 ;
     defparam i_sbmac16.A_SIGNED = 1'b0 ;
-    defparam i_sbmac16.MODE_8x8 = 1'b1 ;
+    defparam i_sbmac16.MODE_8x8 = 1'b0 ;
 
     defparam i_sbmac16.BOTADDSUB_CARRYSELECT = 2'b00 ;
     defparam i_sbmac16.BOTADDSUB_UPPERINPUT = 1'b1 ;
