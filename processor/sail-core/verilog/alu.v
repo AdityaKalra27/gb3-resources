@@ -74,18 +74,18 @@ module alu(ALUctl, A, B, ALUOut, Branch_Enable);
 	wire [31:0] dsp_add_out;
 	wire [31:0] dsp_sub_out;
 
-	DSPAdd add_inputs(
-	.input1(A),
-	.input2(B),
-	.out(dsp_add_out)
-	);
+	// DSPAdd add_inputs(
+	// .input1(A),
+	// .input2(B),
+	// .out(dsp_add_out)
+	// );
 
-	DSPSub sub_inputs(
-	.input1(A),
-	.input2(B),
-	.out(dsp_sub_out),
-	.carry_out(carry_out)
-	);
+	// DSPSub sub_inputs(
+	// .input1(A),
+	// .input2(B),
+	// .out(dsp_sub_out),
+	// .carry_out(carry_out)
+	// );
 
 	initial begin
 		ALUOut = 32'b0;
@@ -107,12 +107,12 @@ module alu(ALUctl, A, B, ALUOut, Branch_Enable);
 			/*
 			 *	ADD (the fields also match AUIPC, all loads, all stores, and ADDI)
 			 */
-			`kSAIL_MICROARCHITECTURE_ALUCTL_3to0_ADD:	ALUOut = dsp_add_out; // A + B
+			`kSAIL_MICROARCHITECTURE_ALUCTL_3to0_ADD:	ALUOut = A + B;//dsp_add_out; // A + B
 
 			/*
 			 *	SUBTRACT (the fields also matches all branches)
 			 */
-			`kSAIL_MICROARCHITECTURE_ALUCTL_3to0_SUB:	ALUOut = dsp_sub_out; // A - B
+			`kSAIL_MICROARCHITECTURE_ALUCTL_3to0_SUB:	ALUOut = A - B;//dsp_sub_out; // A - B
 
 			/*
 			 *	SLT (the fields also matches all the other SLT variants)

@@ -6,7 +6,7 @@
 
 // Program to test all instructions
 
-#define CYCLES_MULT 100000
+#define CYCLES_MULT 200000
 
 #define LED_ON *(volatile unsigned int*)0x2000=0xFF
 #define LED_OFF *(volatile unsigned int*)0x2000=0x00

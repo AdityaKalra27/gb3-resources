@@ -116,6 +116,83 @@
 
 //----------2-BIT ADAPTIVE----------//
 
+// module branch_predictor(
+// 		clk,
+// 		actual_branch_decision,
+// 		branch_decode_sig,
+// 		branch_mem_sig,
+// 		in_addr,
+// 		offset,
+// 		branch_addr,
+// 		prediction
+// 	);
+
+// 	/*
+// 	 *	inputs
+// 	 */
+// 	input		clk;
+// 	input		actual_branch_decision;
+// 	input		branch_decode_sig;
+// 	input		branch_mem_sig;
+// 	input [31:0]	in_addr;
+// 	input [31:0]	offset;
+
+// 	/*
+// 	 *	outputs
+// 	 */
+// 	output [31:0]	branch_addr;
+// 	output		prediction;
+
+// 	// /*
+// 	//  *	internal state
+// 	//  */
+// 	// reg [1:0]	s;
+
+// 	reg		branch_mem_sig_reg;
+
+// 	reg [1:0] branch_history;
+
+// 	reg [1:0] pattern_table[1:0];
+	 
+// 	initial begin
+// 		branch_mem_sig_reg = 1'b0;
+// 		branch_history = 2'b00;
+// 		// pattern_table[2b'00] = 2'b00;
+// 		// pattern_table[2b'01] = 2'b10;
+// 		// pattern_table[2b'10] = 2'b01;
+// 		// pattern_table[2b'11] = 2'b11;
+// 	end
+
+// 	always @(negedge clk) begin
+// 		branch_mem_sig_reg <= branch_mem_sig;
+// 	end
+
+// 	// always @(posedge clk) begin
+// 	// 	if (branch_mem_sig_reg) begin
+// 	// 		s[1] <= (s[1]&s[0]) | (s[0]&actual_branch_decision) | (s[1]&actual_branch_decision);
+// 	// 		s[0] <= (s[1]&(!s[0])) | ((!s[0])&actual_branch_decision) | (s[1]&actual_branch_decision);
+// 	// 	end
+// 	// end
+
+// 	always @(posedge clk) begin
+// 		if (branch_mem_sig_reg) begin
+// 			branch_history[1] <= branch_history[0];
+// 			branch_history[0] <= actual_branch_decision;
+
+// 			pattern_table[branch_history][1] <= (pattern_table[branch_history][1]&pattern_table[branch_history][0]) | (pattern_table[branch_history][0]&actual_branch_decision) | (pattern_table[branch_history][1]&actual_branch_decision);
+// 	 		pattern_table[branch_history][0] <= (pattern_table[branch_history][1]&(!pattern_table[branch_history][0])) | ((!pattern_table[branch_history][0])&actual_branch_decision) | (pattern_table[branch_history][1]&actual_branch_decision);
+// 		end
+// 	end
+
+	
+
+// 	assign branch_addr = in_addr + offset;
+// 	assign prediction = pattern_table[branch_history][1] & branch_decode_sig;
+// endmodule
+
+
+//----------3-LEVEL ADAPTIVE----------//
+
 module branch_predictor(
 		clk,
 		actual_branch_decision,
@@ -150,13 +227,13 @@ module branch_predictor(
 
 	reg		branch_mem_sig_reg;
 
-	reg [1:0] branch_history;
+	reg [2:0] branch_history;
 
-	reg [1:0] pattern_table[3:0];
+	reg [2:0] pattern_table[2:0];
 	 
 	initial begin
 		branch_mem_sig_reg = 1'b0;
-		branch_history = 2'b00;
+		branch_history = 3'b000;
 		// pattern_table[2b'00] = 2'b00;
 		// pattern_table[2b'01] = 2'b10;
 		// pattern_table[2b'10] = 2'b01;
@@ -176,16 +253,35 @@ module branch_predictor(
 
 	always @(posedge clk) begin
 		if (branch_mem_sig_reg) begin
+			branch_history[2] <= branch_history[1];
 			branch_history[1] <= branch_history[0];
 			branch_history[0] <= actual_branch_decision;
 
-			pattern_table[branch_history][1] <= (pattern_table[branch_history][1]&pattern_table[branch_history][0]) | (pattern_table[branch_history][0]&actual_branch_decision) | (pattern_table[branch_history][1]&actual_branch_decision);
-	 		pattern_table[branch_history][0] <= (pattern_table[branch_history][1]&(!pattern_table[branch_history][0])) | ((!pattern_table[branch_history][0])&actual_branch_decision) | (pattern_table[branch_history][1]&actual_branch_decision);
+			// pattern_table[branch_history][1] <= (pattern_table[branch_history][1]&pattern_table[branch_history][0]) | (pattern_table[branch_history][0]&actual_branch_decision) | (pattern_table[branch_history][1]&actual_branch_decision);
+	 		// pattern_table[branch_history][0] <= (pattern_table[branch_history][1]&(!pattern_table[branch_history][0])) | ((!pattern_table[branch_history][0])&actual_branch_decision) | (pattern_table[branch_history][1]&actual_branch_decision);
+			// pattern_table[branch_history][2] <= pattern_table[branch_history][1]&pattern_table[branch_history][0]
+			// 	| pattern_table[branch_history]
+
+			case (actual_branch_decision)
+				1'b0:
+				if (pattern_table[branch_history] != 3'b000) begin
+					pattern_table[branch_history] <= pattern_table[branch_history] - 1;
+				end
+
+				1'b1:
+				if (pattern_table[branch_history] != 3'b111) begin
+					pattern_table[branch_history] <= pattern_table[branch_history] + 1;
+				end
+			endcase
+
+			// pattern_table[branch_history][2] = pattern_table[branch_history][2]&pattern_table[branch_history][1] | pattern_table[branch_history][2]&pattern_table[branch_history][0]&actual_branch_decision;
+			// pattern_table[branch_history][1] = !pattern_table[branch_history][2]&pattern_table[branch_history][1]&!actual_branch_decision | !pattern_table[branch_history][1]&pattern_table[branch_history][0]&actual_branch_decision | pattern_table[branch_history][2]&!pattern_table[branch_history][1];
+			// pattern_table[branch_history][0] = pattern_table[branch_history][0]^actual_branch_decision;
 		end
 	end
 
 	
 
 	assign branch_addr = in_addr + offset;
-	assign prediction = pattern_table[branch_history][1] & branch_decode_sig;
+	assign prediction = pattern_table[branch_history][2] & branch_decode_sig;
 endmodule
