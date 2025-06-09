@@ -86,14 +86,14 @@ module top (led, clk_output);
 	// 	.PLLOUTCORE(pllout_clk)
 	// );
 
-		// 29MHz output configuration
+		// 29 MHz output configuration
 	SB_PLL40_CORE #(
 		.PLLOUT_SELECT("GENCLK"),
 		.FEEDBACK_PATH("SIMPLE"),
-.DIVR(4'b0010),		// DIVR =  2
-.DIVF(7'b0111001),	// DIVF = 57
-.DIVQ(3'b101),		// DIVQ =  5
-.FILTER_RANGE(3'b001)	// FILTER_RANGE = 1
+		.DIVR(4'b0010),		// DIVR =  2
+		.DIVF(7'b0111001),	// DIVF = 57
+		.DIVQ(3'b101),		// DIVQ =  5
+		.FILTER_RANGE(3'b100)	// FILTER_RANGE = 4
 	) PLL_instance (
 		.RESETB(1'b1),
 		.BYPASS(1'b0),
