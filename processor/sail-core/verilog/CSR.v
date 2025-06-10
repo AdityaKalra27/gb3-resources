@@ -58,7 +58,7 @@ module csr_file (clk, write, wrAddr_CSR, wrVal_CSR, rdAddr_CSR, rdVal_CSR);
 		if (write) begin
 			csr_file[wrAddr_CSR] <= wrVal_CSR;
 		end
-		rdVal_CSR <= csr_file[rdAddr_CSR];
+		rdVal_CSR <= 32'b0; //csr_file[rdAddr_CSR];
 	end
 
 endmodule
