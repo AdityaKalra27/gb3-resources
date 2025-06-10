@@ -3,6 +3,7 @@
 	hardwareblink \
 	bubblesort \
 	stresstest \
+	2025-competition-benchmark \
 	clean
 
 softwareblink:
@@ -18,6 +19,10 @@ bubblesort:
 
 stresstest:
 	cd stresstest; make clean; make; make install
+	cd processor; make
+
+2025-competition-benchmark:
+	cd 2025-competition-benchmark; make clean; make; make install
 	cd processor; make
 
 clean:
